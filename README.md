@@ -1,2 +1,4 @@
 # PokemonApp-devMobile
-App de pokemon da disciplina desenvolvimento mobile em ionic
+
+Grupo:
+* Leonardo Emanuel Souza dos Santos - 01418337
