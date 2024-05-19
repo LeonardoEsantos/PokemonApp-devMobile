@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedDataService } from '../services/shared-data.service';
-import { PokeAPIService } from '../services/poke-api.service';
 
 @Component({
   selector: 'app-tab3',
@@ -10,12 +9,13 @@ import { PokeAPIService } from '../services/poke-api.service';
 export class Tab3Page implements OnInit {
   pokemons: any[] = [];
 
-  constructor(
-    private sharedDataService: SharedDataService,
-    private pokeAPIService: PokeAPIService,
-  ) { }
+  constructor(private sharedDataService: SharedDataService) { }
 
   ngOnInit() {
+    this.pokemons = this.sharedDataService.getPokemons();
+  }
+
+  ionViewWillEnter() {
     this.pokemons = this.sharedDataService.getPokemons();
   }
 }

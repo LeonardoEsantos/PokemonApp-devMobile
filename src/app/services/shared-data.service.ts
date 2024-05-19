@@ -4,17 +4,21 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SharedDataService {
-  private pokemon: any;
   private pokemons: any[] = [];
 
   constructor() { }
 
   setPokemon(data: any) {
-    this.pokemon = data;
+    const existingPokemon = this.pokemons.find(pokemon => pokemon.name === data.name);
+    if (existingPokemon) {
+      Object.assign(existingPokemon, data);
+    } else {
+      this.pokemons.push(data);
+    }
   }
 
   getPokemon() {
-    return this.pokemon;
+    return this.pokemons.length > 0 ? this.pokemons[this.pokemons.length - 1] : null;
   }
 
   addPokemon(pokemon: any) {
@@ -24,4 +28,16 @@ export class SharedDataService {
   getPokemons() {
     return this.pokemons;
   }
+
+  updatePokemon(updatedPokemon: any) {
+    const index = this.pokemons.findIndex(pokemon => pokemon.name === updatedPokemon.name);
+    if (index !== -1) {
+      this.pokemons[index] = updatedPokemon;
+    }
+  }
+
+  getLastPokemon() {
+    return this.pokemons.length > 0 ? this.pokemons[this.pokemons.length - 1] : null;
+  }
 }
+

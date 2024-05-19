@@ -37,25 +37,32 @@ export class Tab1Page {
 
   buscarPokemon() {
     this.viaCEPService.getViaCEPService(this.areaBuscarPokemon)
-      .subscribe((value) => {
-        this.areaBusca.logradouro = JSON.parse(JSON.stringify(value))['logradouro'];
-        this.areaBusca.bairro = ', ' + JSON.parse(JSON.stringify(value))['bairro'];
-        this.areaBusca.localidade = ' - ' + JSON.parse(JSON.stringify(value))['localidade'];
-        this.areaBusca.uf = '-' + JSON.parse(JSON.stringify(value))['uf'];
+      .subscribe((value: any) => {
+        this.areaBusca.logradouro = value.logradouro;
+        this.areaBusca.bairro     = ', ' + value.bairro;
+        this.areaBusca.localidade = ' - ' + value.localidade;
+        this.areaBusca.uf         = '-' + value.uf;
       });
 
     this.pokeAPIService.getPokeAPIService()
-      .subscribe((value) => {
-        this.pokemon.name          = JSON.parse(JSON.stringify(value))['name'];
-        this.pokemon.front_default = JSON.parse(JSON.stringify(value))['sprites']['other']['dream_world']['front_default'];
-        this.pokemon.abilities     = JSON.parse(JSON.stringify(value))['abilities'].length;
-        this.pokemon.height        = JSON.parse(JSON.stringify(value))['height'];
-        this.pokemon.weight        = JSON.parse(JSON.stringify(value))['weight'];
+      .subscribe((value: any) => {
+        const newPokemon = {
+          name:          value.name,
+          front_default: value.sprites.other.dream_world.front_default,
+          abilities:     value.abilities.length,
+          height:        value.height,
+          weight:        value.weight,
+          wins: 0,
+          losses: 0,
+          draws: 0
+        };
 
-        // Armazena o Pokémon gerado no serviço SharedDataService
-        this.sharedDataService.setPokemon(this.pokemon);
-        this.sharedDataService.addPokemon(this.pokemon);
+        this.sharedDataService.addPokemon(newPokemon);
+        this.pokemon = newPokemon;
       });
   }
 
+  getLastPokemon() {
+    return this.sharedDataService.getLastPokemon();
+  }
 }

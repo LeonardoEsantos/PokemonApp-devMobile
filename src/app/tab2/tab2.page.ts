@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SharedDataService } from '../services/shared-data.service';
 import { PokeAPIService } from '../services/poke-api.service';
 import { PhotoService } from '../services/photo.service';
@@ -29,7 +29,7 @@ export class Tab2Page {
     private sharedDataService: SharedDataService,
     private pokeAPIService: PokeAPIService,
     private photoService: PhotoService
-  ) {  }
+  ) { }
 
   ionViewWillEnter() {
     this.pokemon = this.sharedDataService.getPokemon();
@@ -38,12 +38,12 @@ export class Tab2Page {
 
   buscarPokemon2() {
     this.pokeAPIService.getPokeAPIService()
-      .subscribe((value) => {
-        this.pokemon2.name          = JSON.parse(JSON.stringify(value))['name'];
-        this.pokemon2.front_default = JSON.parse(JSON.stringify(value))['sprites']['other']['dream_world']['front_default'];
-        this.pokemon2.abilities     = JSON.parse(JSON.stringify(value))['abilities'].length;
-        this.pokemon2.height        = JSON.parse(JSON.stringify(value))['height'];
-        this.pokemon2.weight        = JSON.parse(JSON.stringify(value))['weight'];
+      .subscribe((value: any) => {
+        this.pokemon2.name          = value.name;
+        this.pokemon2.front_default = value.sprites.other.dream_world.front_default;
+        this.pokemon2.abilities     = value.abilities.length;
+        this.pokemon2.height        = value.height;
+        this.pokemon2.weight        = value.weight;
         this.compareAbilities();
       });
   }
@@ -51,11 +51,20 @@ export class Tab2Page {
   compareAbilities() {
     if (this.pokemon2.abilities === this.pokemon.abilities) {
       this.comparisonResult = { color: 'yellow', text: 'Empatou' };
+      this.pokemon.draws++;
+      this.pokemon2.draws++;
     } else if (this.pokemon2.abilities > this.pokemon.abilities) {
       this.comparisonResult = { color: 'green', text: 'Venceu' };
+      this.pokemon.losses++;
+      this.pokemon2.wins++;
     } else {
       this.comparisonResult = { color: 'red', text: 'Perdeu' };
+      this.pokemon.wins++;
+      this.pokemon2.losses++;
     }
+
+    this.sharedDataService.updatePokemon(this.pokemon);
+    this.sharedDataService.updatePokemon(this.pokemon2);
   }
 
   addPhotoToGallery() {
