@@ -1,28 +1,21 @@
-import { Camera, CameraResultType } from '@capacitor/camera';
-import { PhotoService } from '../services/photo.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { SharedDataService } from '../services/shared-data.service';
+import { PokeAPIService } from '../services/poke-api.service';
 
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss']
 })
-export class Tab3Page {
+export class Tab3Page implements OnInit {
+  pokemons: any[] = [];
 
-  constructor(public photoService: PhotoService) {}
+  constructor(
+    private sharedDataService: SharedDataService,
+    private pokeAPIService: PokeAPIService,
+  ) { }
 
-  takePicture = async () => {
-    const image = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: true,
-      resultType: CameraResultType.Uri
-    });
-    var imageUrl = image.webPath;
-    // imageElement.src = imageUrl;
+  ngOnInit() {
+    this.pokemons = this.sharedDataService.getPokemons();
   }
-
-  addPhotoToGallery() {
-    this.photoService.addNewToGallery();
-  }
-
 }

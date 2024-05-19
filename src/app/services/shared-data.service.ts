@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class SharedDataService {
   private pokemon: any;
+  private pokemons: any[] = [];
 
   constructor() { }
 
@@ -14,5 +15,13 @@ export class SharedDataService {
 
   getPokemon() {
     return this.pokemon;
+  }
+
+  addPokemon(pokemon: any) {
+    this.pokemons.push(pokemon);
+  }
+
+  getPokemons() {
+    return this.pokemons;
   }
 }

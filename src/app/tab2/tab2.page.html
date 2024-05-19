@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 2
+     Batalhar
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -14,10 +14,6 @@
   </ion-header>
 
   <ion-grid>
-    <ion-button expand="block" fill="solid" (click)="buscarPokemon2()">
-      Buscar por Pokémon adversario
-      <ion-icon name="search" slot="end"></ion-icon>
-    </ion-button>
     <ion-row>
       <!-- Primeiro Pokémon -->
       <ion-col size="6">
@@ -46,7 +42,9 @@
       <ion-col size="6">
         <ion-card>
           <ion-card-header>
-            <ion-card-title>{{ pokemon2.name | uppercase }}</ion-card-title>
+            <ion-card-title [ngStyle]="{ color: comparisonResult.color }">
+              {{ pokemon2.name | uppercase }} - {{ comparisonResult.text }}
+            </ion-card-title>
           </ion-card-header>
           <ion-card-content>
             <ion-img [src]="pokemon2.front_default"></ion-img>
@@ -66,13 +64,10 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <ion-button expand="block" fill="solid" (click)="compararHabilidades()">
-    DUELAR
-    <ion-icon name="search" slot="end"></ion-icon>
-  </ion-button>
-  <ion-item>
-    <ion-label>Resultado da batalha:</ion-label>
-    <ion-text>{{ winner | uppercase}}</ion-text>
-  </ion-item>
 
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="addPhotoToGallery()">
+      <ion-icon name="camera"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

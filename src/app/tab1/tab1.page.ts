@@ -23,7 +23,10 @@ export class Tab1Page {
     front_default: '',
     abilities: '',
     height: '',
-    weight: ''
+    weight: '',
+    wins: 0,
+    losses: 0,
+    draws: 0
   }
 
   constructor(
@@ -51,7 +54,7 @@ export class Tab1Page {
 
         // Armazena o Pokémon gerado no serviço SharedDataService
         this.sharedDataService.setPokemon(this.pokemon);
-
+        this.sharedDataService.addPokemon(this.pokemon);
       });
   }
 
